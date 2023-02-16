@@ -1,75 +1,78 @@
 package register.sk.tuke.register;
 
-/**
- * register.Person.
- */
-public class Person {
-    /** Name of this person. */
+import java.util.Comparator;
+
+public class Person implements Comparator<Person>{
     private String name;
-    
-    /** Phone number of this person. */
     private String phoneNumber;
-    
+
     /**
      * Construct a person.
-     * @param name name of the person
+     *
+     * @param name        name of the person
      * @param phoneNumber phone number of the person
      */
     public Person(String name, String phoneNumber) {
-        this.name = name;
-        this.setPhoneNumber(phoneNumber);        
+        this.setName(name);
+        this.setPhoneNumber(phoneNumber);
     }
-            
-    /**
-     * Returns name of this person.
-     * @return name of this person
-     */
-    public String getName(){
+
+    public String getName() {
         return name;
     }
-    
-    /**
-     * Sets name of this person.
-     * @param nameNew name of this person
-     */
+
     public void setName(String nameNew) {
+        if (!isValidName(nameNew)) {
+            throw new IllegalArgumentException("Name is not valid. ");
+        }
         name = nameNew;
     }
-    
-    /**
-     * Returns phone number of this person.
-     * @return phone number of this person
-     */
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    /**
-     * Sets phone number of this person.
-     * @param phoneNumberNew phone number of this person
-     */
     public void setPhoneNumber(String phoneNumberNew) {
-        if(!isValidPhoneNumber(phoneNumberNew)) {
-            throw new IllegalArgumentException("Phone number is not valid");
+        if (!isValidPhoneNumber(phoneNumberNew)) {
+            throw new IllegalArgumentException("Phone number is not valid. ");
         }
-        phoneNumber = phoneNumberNew;
+        phoneNumber = formattedPhoneNumber(phoneNumberNew);
     }
-    
-    //TODO: Implement method isValidPhoneNumber
+
+    public String toString() {
+        return name + " (" + phoneNumber + ")";
+    }
+    @Override
+    public int compare(Person o1, Person o2) {
+        return o1.getName().compareTo(o2.getName());
+    }
+
     /**
      * Validates the phone number. Valid phone numbers contains only digits.
+     *
      * @param phoneNumber phone number to validate
      * @return <code>true</code> if phone number is valid, <code>false</code> otherwise
      */
-    private boolean isValidPhoneNumber(String phoneNumber) {        
-        return false;
+    private boolean isValidPhoneNumber(String phoneNumber) {
+        final String regex = "^[0]\\s?\\d{3}\\s?\\d{3}\\s?\\d{3}";
+        return phoneNumber.matches(regex);
     }
-    
-    /**
-     * Returns a string representation of the person.
-     * @return string representation of the person.
-     */
-    public String toString() {
-        return  name + " (" + phoneNumber + ")";
+
+    private String formattedPhoneNumber(String phoneNumberNew) {
+        String formattedNumber = " ";
+        if (!phoneNumberNew.isEmpty()) {
+            formattedNumber = phoneNumberNew.replaceFirst("0", "+421").replace(" ", "");
+        }
+        return formattedNumber;
     }
+
+    private boolean isValidName(String name) {
+        final String regex = "\\w*\\s\\w*";
+        return name.matches(regex);
+    }
+
+
+
 }
+
+

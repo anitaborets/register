@@ -1,2 +1,2 @@
-# register
-jednoduchý register osôb a ich telefónnych čísel
+# arrayRegister
+jednoduchý arrayRegister osôb a ich telefónnych čísel
