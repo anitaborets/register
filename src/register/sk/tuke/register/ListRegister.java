@@ -3,10 +3,15 @@ package register.sk.tuke.register;
 import java.util.*;
 
 public class ListRegister implements Register {
-    private final List<Person> persons = new ArrayList();
+    private final List<Person> persons = new ArrayList<>();
 
     @Override
     public int getCount() {
+        return persons.size();
+    }
+
+    @Override
+    public int getSize() {
         return persons.size();
     }
 
@@ -46,9 +51,7 @@ public class ListRegister implements Register {
     }
 
     @Override
-    public String toString() {
+    public void sort() {
         persons.sort(Comparator.comparing((Person::getName)));
-        return "{" + persons +
-                '}';
     }
 }

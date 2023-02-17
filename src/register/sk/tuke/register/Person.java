@@ -2,16 +2,10 @@ package register.sk.tuke.register;
 
 import java.util.Comparator;
 
-public class Person implements Comparator<Person>{
+public class Person implements Comparator<Person> {
     private String name;
     private String phoneNumber;
 
-    /**
-     * Construct a person.
-     *
-     * @param name        name of the person
-     * @param phoneNumber phone number of the person
-     */
     public Person(String name, String phoneNumber) {
         this.setName(name);
         this.setPhoneNumber(phoneNumber);
@@ -23,7 +17,7 @@ public class Person implements Comparator<Person>{
 
     public void setName(String nameNew) {
         if (!isValidName(nameNew)) {
-            throw new IllegalArgumentException("Name is not valid. ");
+            throw new IllegalArgumentException("Name is not valid");
         }
         name = nameNew;
     }
@@ -34,7 +28,7 @@ public class Person implements Comparator<Person>{
 
     public void setPhoneNumber(String phoneNumberNew) {
         if (!isValidPhoneNumber(phoneNumberNew)) {
-            throw new IllegalArgumentException("Phone number is not valid. ");
+            throw new IllegalArgumentException("Phone number is not valid");
         }
         phoneNumber = formattedPhoneNumber(phoneNumberNew);
     }
@@ -42,17 +36,12 @@ public class Person implements Comparator<Person>{
     public String toString() {
         return name + " (" + phoneNumber + ")";
     }
+
     @Override
     public int compare(Person o1, Person o2) {
         return o1.getName().compareTo(o2.getName());
     }
 
-    /**
-     * Validates the phone number. Valid phone numbers contains only digits.
-     *
-     * @param phoneNumber phone number to validate
-     * @return <code>true</code> if phone number is valid, <code>false</code> otherwise
-     */
     private boolean isValidPhoneNumber(String phoneNumber) {
         final String regex = "^[0]\\s?\\d{3}\\s?\\d{3}\\s?\\d{3}";
         return phoneNumber.matches(regex);
@@ -70,9 +59,6 @@ public class Person implements Comparator<Person>{
         final String regex = "\\w*\\s\\w*";
         return name.matches(regex);
     }
-
-
-
 }
 
 

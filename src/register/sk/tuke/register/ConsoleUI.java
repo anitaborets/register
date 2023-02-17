@@ -1,8 +1,5 @@
 package register.sk.tuke.register;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Scanner;
 
 import static java.util.Objects.isNull;
@@ -10,12 +7,8 @@ import static java.util.Objects.isNull;
 public class ConsoleUI {
 
     private final Register arrayRegister;
-
     private final Scanner scanner = new Scanner(System.in);
 
-    /**
-     * Menu options.
-     */
     private enum Option {
         PRINT, ADD, UPDATE, REMOVE, FIND, EXIT
     }
@@ -53,22 +46,22 @@ public class ConsoleUI {
         var selection = -1;
         do {
             System.out.println("Option: ");
-            selection = Integer.parseInt(readLine());
+            try {
+                selection = Integer.parseInt(readLine());
+            } catch (NumberFormatException e) {
+                System.out.println(e.getMessage() + "This option is not exist");
+                return Option.EXIT;
+            }
         } while (selection <= 0 || selection > Option.values().length);
 
         return Option.values()[selection - 1];
     }
 
     private void printRegister() {
-        if(arrayRegister instanceof ArrayRegister) {
-            for (int i = 0; i < arrayRegister.getCount(); i++) {
-                if (!isNull(arrayRegister.getPerson(i)))
-                    System.out.println((i + 1) + "." + arrayRegister.getPerson(i));
-            }
-        }
-        if (arrayRegister instanceof ListRegister) {
-            System.out.println(arrayRegister.toString());
-
+        arrayRegister.sort();
+        for (int i = 0; i < arrayRegister.getCount(); i++) {
+            if (!isNull(arrayRegister.getPerson(i)))
+                System.out.println((i + 1) + "." + arrayRegister.getPerson(i));
         }
     }
 
@@ -80,17 +73,19 @@ public class ConsoleUI {
 
         try {
             Person person = new Person(name, phoneNumber);
+            System.out.println("You want to add: " + person);
             arrayRegister.addPerson(person);
             System.out.println("Person was added successfully");
+
+        } catch (RegisterException e) {
+            System.out.println("Exception:" + e);
+            return;
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage() + "Try again");
             return;
-        } catch (RegisterException e) {
-            System.out.println("Exception:" + e.toString());
-            return;
         }
-    }
 
+    }
     private void updateRegister() {
         System.out.println("Enter index of person: ");
         var index = Integer.parseInt(readLine());
@@ -118,7 +113,6 @@ public class ConsoleUI {
     }
 
     private void findInRegister() {
-
         System.out.println("Enter name or phoneNumber: ");
         String isPhoneNumber = "[-+]?\\d+";
         var input = readLine();
