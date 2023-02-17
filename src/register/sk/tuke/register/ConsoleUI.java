@@ -86,6 +86,7 @@ public class ConsoleUI {
         }
 
     }
+
     private void updateRegister() {
         System.out.println("Enter index of person: ");
         var index = Integer.parseInt(readLine());

@@ -73,6 +73,7 @@ public class ArrayRegister implements Register {
             List<Person> list = new ArrayList((Arrays.asList(persons)));
             list.remove(person);
             persons = list.toArray(new Person[list.size()]);
+            count--;
         }
     }
 
